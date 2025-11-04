@@ -1,0 +1,183 @@
+.reservar-page {
+  min-height: calc(100vh - 72px);
+
+  .card {
+    border-radius: 1.75rem;
+    border: 1px solid rgba(27, 29, 42, 0.06);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .vehicle-summary {
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.08), rgba(67, 97, 238, 0.02));
+    border: 1px solid rgba(67, 97, 238, 0.12);
+  }
+
+  .vehicle-summary__images {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+
+    img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 0.85rem;
+      box-shadow: var(--shadow-soft);
+    }
+  }
+
+  .pickup-location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: #101322;
+    color: #f3f4ff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    box-shadow: 0 12px 32px rgba(13, 17, 34, 0.35);
+  }
+
+  .pickup-section {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .pickup-card {
+    background: linear-gradient(145deg, #10162c 0%, #1a203c 100%);
+    color: #f5f6ff;
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    box-shadow: 0 16px 40px rgba(10, 15, 30, 0.45);
+    border: 1px solid rgba(243, 244, 255, 0.12);
+
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(243, 244, 255, 0.12);
+      color: #f5f6ff;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    &__text {
+      color: rgba(243, 244, 255, 0.78);
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .pickup-map {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    height: 240px;
+    border: 1px solid rgba(243, 244, 255, 0.15);
+    box-shadow: inset 0 0 0 1px rgba(243, 244, 255, 0.04);
+  }
+
+  .availability-card {
+    background: linear-gradient(145deg, #0c111f 0%, #151b31 100%);
+    color: #f5f6ff;
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    box-shadow: 0 16px 40px rgba(10, 15, 30, 0.45);
+    border: 1px solid rgba(243, 244, 255, 0.12);
+
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(67, 97, 238, 0.18);
+      color: #cdd7ff;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    &__loading {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: rgba(243, 244, 255, 0.72);
+      font-size: 0.9rem;
+    }
+
+    &__empty {
+      margin: 0;
+      color: rgba(243, 244, 255, 0.7);
+      font-size: 0.9rem;
+    }
+  }
+
+  .availability-list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 1rem;
+      background: rgba(243, 244, 255, 0.06);
+      border: 1px solid rgba(243, 244, 255, 0.1);
+
+      span:first-child {
+        font-weight: 600;
+      }
+
+      .badge {
+        background: rgba(243, 244, 255, 0.16);
+        color: #f5f6ff;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .form-control,
+  .form-select,
+  textarea {
+    border-radius: 0.9rem;
+    border: 1px solid rgba(27, 29, 42, 0.1);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .form-control:focus,
+  .form-select:focus,
+  textarea:focus {
+    border-color: rgba(67, 97, 238, 0.45);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+  }
+
+  .btn-link {
+    padding-left: 0;
+  }
+
+  .availability-alert {
+    border: none;
+    box-shadow: 0 12px 32px rgba(10, 15, 30, 0.08);
+  }
+}
+
+@media (max-width: 576px) {
+  .reservar-page .card {
+    border-radius: 1.25rem;
+  }
+
+  .reservar-page .pickup-section {
+    grid-template-columns: 1fr;
+  }
+}

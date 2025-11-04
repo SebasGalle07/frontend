@@ -1,0 +1,107 @@
+<section class="auth-section d-flex align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card border-0 shadow auth-card">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="text-center fw-semibold mb-2">Bienvenido a AutoShare</h3>
+            <p class="text-center text-muted mb-4">
+              Ingresa tus credenciales para continuar.
+            </p>
+
+            <form
+              (ngSubmit)="login(loginForm)"
+              #loginForm="ngForm"
+              novalidate
+            >
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="email">Correo electronico</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control form-control-lg"
+                  name="email"
+                  [(ngModel)]="email"
+                  #emailCtrl="ngModel"
+                  required
+                  email
+                  [class.is-invalid]="loginForm.submitted && emailCtrl.invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.submitted && emailCtrl.errors?.['required']"
+                >
+                  El correo es obligatorio.
+                </div>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.submitted && emailCtrl.errors?.['email']"
+                >
+                  Ingresa un correo valido.
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="password">Contrasena</label>
+                <input
+                  id="password"
+                  type="password"
+                  class="form-control form-control-lg"
+                  name="password"
+                  [(ngModel)]="password"
+                  #passwordCtrl="ngModel"
+                  required
+                  minlength="6"
+                  [class.is-invalid]="loginForm.submitted && passwordCtrl.invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.submitted && passwordCtrl.errors?.['required']"
+                >
+                  La contrasena es obligatoria.
+                </div>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.submitted && passwordCtrl.errors?.['minlength']"
+                >
+                  Debe tener al menos 6 caracteres.
+                </div>
+              </div>
+
+              <div
+                class="alert alert-danger py-2"
+                *ngIf="error"
+                role="alert"
+              >
+                {{ error }}
+              </div>
+
+              <button
+                class="btn btn-primary w-100 btn-lg"
+                type="submit"
+                [disabled]="isLoading || loginForm.invalid"
+              >
+                <span *ngIf="!isLoading">Ingresar</span>
+                <span
+                  *ngIf="isLoading"
+                  class="d-flex align-items-center justify-content-center gap-2"
+                >
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Validando...
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+        <p class="text-center text-muted mt-3 small">
+          Aun no tienes cuenta?
+          <a routerLink="/register" class="fw-semibold">Registrate aqui</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

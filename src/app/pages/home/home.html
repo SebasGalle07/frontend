@@ -1,0 +1,280 @@
+<section class="home-hero py-5">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="pill mb-3">Plataforma car sharing</span>
+      <h1 class="hero-title">
+        Encuentra el vehiculo perfecto sin perder minutos comparando.
+      </h1>
+      <p class="hero-subtitle">
+        Filtra por ciudad, tipo y fechas para ver disponibilidad real en vivo. Confirma
+        tu reserva en segundos y recibe notificaciones inmediatas.
+      </p>
+
+      <form class="hero-form" (ngSubmit)="buscar()" novalidate>
+        <div class="form-grid">
+          <label>
+            <span>Ciudad</span>
+            <div class="form-field">
+              <i class="bi bi-geo-alt"></i>
+              <input
+                type="text"
+                name="ciudad"
+                placeholder="Ej: Medellin"
+                [(ngModel)]="filtros.ciudad"
+              />
+            </div>
+          </label>
+
+          <label>
+            <span>Tipo</span>
+            <div class="form-field">
+              <i class="bi bi-sliders"></i>
+              <input
+                type="text"
+                name="tipo"
+                placeholder="SUV, Sedan, Electrico..."
+                [(ngModel)]="filtros.tipo"
+              />
+            </div>
+          </label>
+
+          <label>
+            <span>Fecha inicio</span>
+            <div class="form-field">
+              <i class="bi bi-calendar-event"></i>
+              <input
+                type="date"
+                name="fecha_inicio"
+                [(ngModel)]="filtros.fecha_inicio"
+              />
+            </div>
+          </label>
+
+          <label>
+            <span>Fecha fin</span>
+            <div class="form-field">
+              <i class="bi bi-calendar-check"></i>
+              <input
+                type="date"
+                name="fecha_fin"
+                [(ngModel)]="filtros.fecha_fin"
+              />
+            </div>
+          </label>
+        </div>
+
+        <div class="hero-actions">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="bi bi-search me-2"></i>
+            Buscar vehiculos
+          </button>
+          <a class="btn btn-outline-primary btn-lg" routerLink="/buscar">
+            Ver todas las opciones
+          </a>
+        </div>
+
+        <p class="hero-helper text-muted">
+          <i class="bi bi-check2-circle me-1"></i>
+          Aqui reservas tu vehiculo: ingresa en <strong>Ver todas las opciones</strong> para ver la oferta completa sin filtros.
+        </p>
+      </form>
+
+      <small class="hero-note">
+        Los precios se actualizan en tiempo real segun demanda y temporada. Mantener la sesion
+        activa agiliza el proceso de reserva.
+      </small>
+    </div>
+
+    <div class="hero-panel">
+      <div class="hero-panel__card">
+        <div class="hero-panel__icon hero-panel__icon--blue">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <div>
+          <h3>Entrega flexible</h3>
+          <p>Coordina horarios y puntos de encuentro segun tu agenda.</p>
+        </div>
+      </div>
+
+      <div class="hero-panel__card">
+        <div class="hero-panel__icon hero-panel__icon--green">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <div>
+          <h3>Pagos seguros</h3>
+          <p>Transacciones protegidas con soporte inmediato ante imprevistos.</p>
+        </div>
+      </div>
+
+      <div class="hero-panel__card">
+        <div class="hero-panel__icon hero-panel__icon--orange">
+          <i class="bi bi-ev-front"></i>
+        </div>
+        <div>
+          <h3>Flota moderna</h3>
+          <p>Vehiculos inspeccionados, electricos y de combustion listos para viajar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-highlights py-5">
+  <div class="container d-flex flex-column gap-4">
+    <div class="section-heading">
+      <h2>Recomendados para ti</h2>
+      <p>
+        Una seleccion cuidada de vehiculos listos para reservar en las proximas 24 horas.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <ng-container *ngIf="destacados.length; else destacadosEmpty">
+        <div class="col-lg-4 col-md-6" *ngFor="let v of destacados">
+          <app-vehicle-card
+            [vehicle]="v"
+            [highlight]="true"
+            [actionLink]="['/reservar', v.id]"
+            actionLabel="Reservar ahora"
+          ></app-vehicle-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
+<ng-template #destacadosEmpty>
+  <div class="col-12">
+    <div class="empty-card">
+      <div class="empty-card__content">
+        <i class="bi bi-binoculars"></i>
+        <h3>{{ mostrarDestacadosSkeleton ? 'Analizando opciones...' : 'Sin recomendaciones por ahora' }}</h3>
+        <p>
+          {{ mostrarDestacadosSkeleton
+            ? 'Cargando la disponibilidad mas reciente en tu zona.'
+            : 'Prueba ajustando los filtros o explora la lista completa de vehiculos.'
+          }}
+        </p>
+        <a class="btn btn-outline-primary btn-sm" routerLink="/buscar">
+          Ver todos los vehiculos
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<section class="home-dashboard py-5">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-4">
+        <div class="status-card">
+          <header>
+            <span class="pill">Estado del backend</span>
+            <h3>Salud del servicio</h3>
+          </header>
+
+          <div class="status-card__body" *ngIf="isLoadingHealth">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            Consultando backend...
+          </div>
+
+          <div class="alert alert-danger" *ngIf="healthError">
+            {{ healthError }}
+          </div>
+
+          <div class="status-card__metrics" *ngIf="healthStatus && !healthError">
+            <dl>
+              <div>
+                <dt>Backend</dt>
+                <dd>{{ healthStatus.estado || 'desconocido' }}</dd>
+              </div>
+              <div>
+                <dt>Aplicacion</dt>
+                <dd>{{ healthStatus.aplicacion || '-' }}</dd>
+              </div>
+              <div>
+                <dt>Entorno</dt>
+                <dd>{{ healthStatus.entorno || '-' }}</dd>
+              </div>
+            </dl>
+
+            <div class="status-card__supabase">
+              <span class="status-card__supabase-pill"
+                [class.status-card__supabase-pill--ok]="healthStatus.supabase?.configurado"
+              >
+                {{ healthStatus.supabase?.configurado ? 'Credenciales completas' : 'Supabase faltante' }}
+              </span>
+              <small>
+                Ultima verificacion:
+                {{ healthStatus.marca_de_tiempo | date : 'medium' }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="reservations-card">
+          <div class="reservations-card__header">
+            <div>
+              <h3>Tus reservas recientes</h3>
+              <p *ngIf="estaAutenticado; else invitaSesion">
+                {{ usuario?.nombre ? ('Hola, ' + usuario?.nombre + '. ') : '' }}
+                Aqui puedes cancelar o revisar el detalle de tus proximos viajes.
+              </p>
+            </div>
+            <a class="btn btn-outline-primary btn-sm" routerLink="/buscar">Explorar vehiculos</a>
+          </div>
+
+          <ng-template #invitaSesion>
+            <p class="text-muted mb-0">
+              Inicia sesion para revisar el historial y gestionar reservas activas.
+            </p>
+          </ng-template>
+
+          <div class="alert alert-danger" *ngIf="cancelError">
+            {{ cancelError }}
+          </div>
+          <div class="alert alert-danger" *ngIf="errorReservas">
+            {{ errorReservas }}
+          </div>
+
+          <div class="reservations-card__loading" *ngIf="isLoadingReservas">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            Recuperando reservas...
+          </div>
+
+          <div class="reservations-card__list" *ngIf="hayReservas; else reservasEmpty">
+            <app-reservation-card
+              *ngFor="let reserva of reservas"
+              [reservation]="reserva"
+              [showCancel]="reserva.status === 'confirmada'"
+              [isCancelling]="cancelandoId === reserva.id"
+              (cancel)="cancelarReserva($event)"
+            ></app-reservation-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #reservasEmpty>
+  <div class="empty-card mt-4" *ngIf="estaAutenticado && !errorReservas">
+    <div class="empty-card__content">
+      <i class="bi bi-calendar4-week"></i>
+      <h3>Todavia no tienes reservas activas</h3>
+      <p>Haz tu primera reserva desde la seccion de busqueda y gestionala aqui mismo.</p>
+      <a class="btn btn-primary btn-sm" routerLink="/buscar">Buscar un vehiculo</a>
+    </div>
+  </div>
+
+  <div class="empty-card mt-4" *ngIf="!estaAutenticado">
+    <div class="empty-card__content">
+      <i class="bi bi-unlock"></i>
+      <h3>Inicia sesion para ver tus reservas</h3>
+      <p>Guarda y gestiona todos tus viajes desde un solo lugar.</p>
+      <a class="btn btn-outline-primary btn-sm" routerLink="/login">Acceder</a>
+    </div>
+  </div>
+</ng-template>

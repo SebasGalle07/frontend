@@ -1,0 +1,116 @@
+<section class="admin-vehicles">
+  <header class="admin-vehicles__header">
+    <div>
+      <h1 class="admin-vehicles__title">Gestion de vehiculos</h1>
+      <p class="admin-vehicles__subtitle">
+        Controla el catalogo y publica solo los vehiculos validados.
+      </p>
+    </div>
+    <a class="btn btn-primary" routerLink="/admin/vehicles/nuevo">Registrar vehiculo</a>
+  </header>
+
+  <div class="admin-vehicles__alerts" *ngIf="errorMessage || successMessage">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  </div>
+
+  <form class="admin-vehicles__filters" (ngSubmit)="applyFilters()">
+    <label class="admin-vehicles__filter">
+      <span>Estado</span>
+      <select [(ngModel)]="statusFilter" name="status" (change)="applyFilters()">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </label>
+    <label class="admin-vehicles__filter">
+      <span>Ciudad</span>
+      <input
+        type="text"
+        name="city"
+        placeholder="Filtrar por ciudad"
+        [(ngModel)]="cityFilter"
+        (keyup.enter)="applyFilters()"
+      />
+    </label>
+    <div class="admin-vehicles__filter-actions">
+      <button type="submit" class="btn btn-secondary">Aplicar</button>
+      <button type="button" class="btn btn-link" (click)="resetFilters()">Limpiar</button>
+    </div>
+  </form>
+
+  <div class="admin-vehicles__state" *ngIf="isLoading">
+    Cargando vehiculos...
+  </div>
+
+  <div class="admin-vehicles__table" *ngIf="!isLoading && vehicles.length">
+    <table>
+      <thead>
+        <tr>
+          <th>Vehiculo</th>
+          <th>Categoria</th>
+          <th>Ciudad</th>
+          <th>Estado</th>
+          <th>Tarifa</th>
+          <th>Creado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of vehicles; trackBy: trackById">
+          <td>
+            <div class="vehicle-row">
+              <div class="vehicle-row__image" *ngIf="getVehicleImage(vehicle); else noImg">
+                <img [src]="getVehicleImage(vehicle)" alt="Imagen del vehiculo" loading="lazy" />
+              </div>
+              <ng-template #noImg>
+                <div class="vehicle-row__image vehicle-row__image--placeholder">SIN IMAGEN</div>
+              </ng-template>
+              <div class="vehicle-row__info">
+                <span class="vehicle-row__title">
+                  {{ vehicle.make ?? 'Vehiculo' }} {{ vehicle.model ?? '' }}
+                </span>
+                <span class="vehicle-row__plate">
+                  Placa: {{ vehicle.license_plate ?? 'N/D' }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>{{ vehicle.vehicle_type ?? '---' }}</td>
+          <td>{{ vehicle.location ?? '---' }}</td>
+          <td>
+            <span
+              class="status-badge"
+              [class.status-badge--active]="vehicle.status === 'activo'"
+              [class.status-badge--inactive]="vehicle.status !== 'activo'"
+            >
+              {{ formatStatus(vehicle.status) }}
+            </span>
+          </td>
+          <td>
+            <ng-container *ngIf="vehicle.price_per_day; else noPrice">
+              ${{ vehicle.price_per_day | number: '1.0-0' }}
+              {{ (vehicle.currency ?? 'USD') | uppercase }}
+            </ng-container>
+            <ng-template #noPrice>--</ng-template>
+          </td>
+          <td>{{ vehicle.created_at | date: 'mediumDate' }}</td>
+          <td class="vehicle-row__actions">
+            <button
+              type="button"
+              class="btn btn-link"
+              [disabled]="updatingId === vehicle.id"
+              (click)="toggleStatus(vehicle)"
+            >
+              {{ vehicle.status === 'activo' ? 'Marcar inactivo' : 'Validar' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="admin-vehicles__state" *ngIf="!isLoading && !vehicles.length">
+    No se encontraron vehiculos con los filtros actuales.
+  </div>
+</section>

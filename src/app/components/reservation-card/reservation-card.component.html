@@ -1,0 +1,76 @@
+<article class="reservation-card">
+  <header class="reservation-card__header">
+    <span class="reservation-card__status" [class]="statusBadge">
+      {{ reservation.status | titlecase }}
+    </span>
+
+    <div class="reservation-card__vehicle">
+      <strong class="reservation-card__vehicle-name">
+        {{ reservation.vehicle?.make ?? 'Vehiculo' }}
+        {{ reservation.vehicle?.model ?? '' }}
+      </strong>
+      <span class="reservation-card__vehicle-meta" *ngIf="reservation.vehicle?.location">
+        {{ reservation.vehicle?.location }}
+      </span>
+    </div>
+  </header>
+
+  <dl class="reservation-card__timeline">
+    <div>
+      <dt>Inicio</dt>
+      <dd>
+        {{ startDate || reservation.start_date | date: 'mediumDate' }}
+      </dd>
+    </div>
+    <div>
+      <dt>Fin</dt>
+      <dd>
+        {{ endDate || reservation.end_date | date: 'mediumDate' }}
+      </dd>
+    </div>
+  </dl>
+
+  <p class="reservation-card__note" *ngIf="reservation.comentarios">
+    "{{ reservation.comentarios }}"
+  </p>
+
+  <footer class="reservation-card__footer">
+    <div class="reservation-card__tags">
+      <span *ngIf="reservation.vehicle?.vehicle_type">
+        {{ reservation.vehicle?.vehicle_type }}
+      </span>
+      <span *ngIf="reservation.vehicle?.fuel_type">
+        {{ reservation.vehicle?.fuel_type }}
+      </span>
+    </div>
+
+    <div class="reservation-card__actions">
+      <ng-container *ngIf="reservation.id; else detailDisabled">
+        <a
+          class="reservation-card__link"
+          [routerLink]="['/reservas', reservation.id, 'detalle']"
+        >
+          Ver detalle
+        </a>
+      </ng-container>
+      <ng-template #detailDisabled>
+        <span class="reservation-card__link reservation-card__link--disabled">Ver detalle</span>
+      </ng-template>
+      <button
+        type="button"
+        class="reservation-card__cancel"
+        *ngIf="showCancel && reservation.status === 'confirmada'"
+        (click)="onCancel()"
+        [disabled]="isCancelling"
+      >
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="isCancelling"
+        ></span>
+        <span *ngIf="!isCancelling">Cancelar</span>
+      </button>
+    </div>
+  </footer>
+</article>

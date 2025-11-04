@@ -1,0 +1,107 @@
+<section class="vehicle-form">
+  <header class="vehicle-form__header">
+    <div>
+      <h1 class="vehicle-form__title">Registrar nuevo vehiculo</h1>
+      <p class="vehicle-form__subtitle">
+        Completa los datos obligatorios y adjunta imagenes en formato JPG o PNG (maximo 3MB).
+      </p>
+    </div>
+    <a class="btn btn-link" routerLink="/admin/vehicles">Volver al listado</a>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="vehicle-form__body">
+    <div class="vehicle-form__grid">
+      <label class="vehicle-form__field">
+        <span>Placa*</span>
+        <input type="text" formControlName="license_plate" placeholder="ABC123" maxlength="8" />
+        <small *ngIf="licenseControl.invalid && licenseControl.touched">
+          Usa un formato similar a ABC123 o ABC12D.
+        </small>
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Marca*</span>
+        <input type="text" formControlName="make" placeholder="Toyota" />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Modelo*</span>
+        <input type="text" formControlName="model" placeholder="RAV4" />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Año*</span>
+        <input type="number" formControlName="year" [min]="minYear" [max]="maxYear" />
+        <small *ngIf="yearControl.invalid && yearControl.touched">
+          Debe estar entre {{ minYear }} y {{ maxYear }}.
+        </small>
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Categoria*</span>
+        <input type="text" formControlName="vehicle_type" placeholder="SUV, Sedan, Pickup..." />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Precio por dia (USD)*</span>
+        <input type="number" formControlName="price_per_day" min="1" />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Ciudad/Ubicacion*</span>
+        <input type="text" formControlName="location" placeholder="Bogota" />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Capacidad</span>
+        <input type="number" formControlName="capacity" min="1" placeholder="5" />
+      </label>
+
+      <label class="vehicle-form__field">
+        <span>Propietario (opcional)</span>
+        <input type="text" formControlName="owner_id" placeholder="ID del propietario" />
+      </label>
+    </div>
+
+    <label class="vehicle-form__field vehicle-form__field--full">
+      <span>Descripcion</span>
+      <textarea
+        formControlName="descripcion"
+        rows="4"
+        placeholder="Detalles relevantes, nivel de equipamiento, condiciones de entrega..."
+      ></textarea>
+    </label>
+
+    <div class="vehicle-form__field vehicle-form__field--full">
+      <span>Imagenes*</span>
+      <input
+        type="file"
+        accept=".jpg,.jpeg,.png"
+        multiple
+        (change)="onFilesSelected($event)"
+      />
+      <small>Formatos permitidos: JPG/PNG. Tamaño maximo por archivo: 3MB.</small>
+
+      <div class="vehicle-form__previews" *ngIf="previews.length">
+        <figure *ngFor="let preview of previews; let i = index" class="vehicle-form__preview">
+          <img [src]="preview" alt="Vista previa imagen {{ i + 1 }}" />
+          <button type="button" class="btn btn-link" (click)="removeImage(i)">Quitar</button>
+        </figure>
+      </div>
+    </div>
+
+    <div class="vehicle-form__messages">
+      <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+    </div>
+
+    <div class="vehicle-form__actions">
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? 'Registrando...' : 'Registrar vehiculo' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="resetForm()" [disabled]="loading">
+        Limpiar
+      </button>
+    </div>
+  </form>
+</section>

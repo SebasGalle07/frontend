@@ -1,0 +1,41 @@
+@use 'sass:color';
+
+.auth-section {
+  min-height: calc(100vh - 64px);
+  background: linear-gradient(135deg, rgba(0, 48, 73, 0.92), rgba(247, 127, 0, 0.65));
+  padding: 4rem 1rem;
+  position: relative;
+}
+
+.auth-card {
+  border-radius: 1.25rem;
+  backdrop-filter: blur(10px);
+}
+
+.auth-card .form-control {
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card .form-control:focus {
+  border-color: color.adjust(#d62828, $lightness: 10%);
+  box-shadow: 0 0 0 0.2rem rgba(214, 40, 40, 0.15);
+}
+
+.auth-card .btn {
+  border-radius: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.auth-card .invalid-feedback {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 576px) {
+  .auth-section {
+    padding: 3rem 1.25rem;
+  }
+}

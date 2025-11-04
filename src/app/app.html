@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <div class="container">
+    <a
+      class="navbar-brand d-flex align-items-center gap-2"
+      [routerLink]="isLoggedIn ? '/home' : '/login'"
+    >
+      <span class="brand-mark"></span>
+      <span class="fs-5 fw-semibold">AutoShare</span>
+      <span class="brand-pill" aria-hidden="true">beta</span>
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a
+            class="nav-link"
+            routerLink="/home"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Inicio
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a
+            class="nav-link"
+            routerLink="/buscar"
+            routerLinkActive="active"
+          >
+            Buscar
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+          <a
+            class="nav-link"
+            routerLink="/admin/vehicles"
+            routerLinkActive="active"
+          >
+            Administrar
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a
+            class="nav-link"
+            routerLink="/register"
+            routerLinkActive="active"
+          >
+            Registrarse
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a
+            class="nav-link"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Login
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm ms-lg-3"
+            (click)="logout()"
+          >
+            Salir
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

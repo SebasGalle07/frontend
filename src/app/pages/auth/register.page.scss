@@ -1,0 +1,88 @@
+@use 'sass:color';
+
+.auth-section {
+  min-height: calc(100vh - 64px);
+  background: linear-gradient(135deg, rgba(0, 48, 73, 0.9), rgba(214, 40, 40, 0.7));
+  padding: 4rem 1rem;
+  position: relative;
+}
+
+.auth-card {
+  border-radius: 1.25rem;
+}
+
+.auth-card .form-control {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.9rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card .form-control:focus {
+  border-color: color.adjust(#003049, $lightness: 8%);
+  box-shadow: 0 0 0 0.2rem rgba(0, 48, 73, 0.15);
+}
+
+.auth-card .btn {
+  border-radius: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.auth-card .invalid-feedback {
+  font-size: 0.85rem;
+}
+
+.role-options {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.role-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.role-option:hover {
+  border-color: rgba(0, 48, 73, 0.25);
+  box-shadow: 0 0.75rem 1.8rem rgba(0, 0, 0, 0.08);
+}
+
+.role-option input {
+  margin-top: 0.25rem;
+}
+
+.role-option .role-title {
+  display: block;
+  font-weight: 600;
+  color: #003049;
+}
+
+.role-option input:checked + .role-content .role-title {
+  color: #d62828;
+}
+
+.role-help {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0.85rem;
+  padding: 0.9rem 1rem;
+  border: 1px dashed rgba(0, 48, 73, 0.2);
+}
+
+@media (max-width: 576px) {
+  .auth-section {
+    padding: 3rem 1.25rem;
+  }
+
+  .auth-card {
+    border-radius: 1rem;
+  }
+}

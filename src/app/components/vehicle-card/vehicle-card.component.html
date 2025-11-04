@@ -1,0 +1,63 @@
+<article
+  class="vehicle-card"
+  [class.vehicle-card--highlight]="highlight"
+>
+  <div class="vehicle-card__image" *ngIf="coverImage; else placeholderImage">
+    <img
+      [src]="coverImage"
+      loading="lazy"
+      [alt]="(vehicle.make ?? 'Vehiculo') + ' ' + (vehicle.model ?? '')"
+    />
+  </div>
+  <ng-template #placeholderImage>
+    <div class="vehicle-card__image vehicle-card__image--placeholder">
+      <span>Sin imagen</span>
+    </div>
+  </ng-template>
+
+  <div class="vehicle-card__header">
+    <span class="vehicle-card__badge">{{ displayLocation }}</span>
+    <span class="vehicle-card__price">
+      ${{ pricePerDay }}
+      <small class="vehicle-card__price-note">
+        /dia · {{ currency }}
+      </small>
+    </span>
+  </div>
+
+  <h3 class="vehicle-card__title">
+    {{ vehicle.make ?? 'Vehiculo' }}
+    {{ vehicle.model ?? '' }}
+  </h3>
+
+  <p class="vehicle-card__plate" *ngIf="displayPlate">
+    Placa: {{ displayPlate }}
+  </p>
+
+  <p class="vehicle-card__meta">
+    {{ vehicle.vehicle_type ?? vehicle.vehicleType ?? 'Tipo no definido' }}
+    &nbsp;&bull;&nbsp;
+    {{ seatCount }} plazas
+    <span *ngIf="vehicle.transmission">
+      &nbsp;&bull;&nbsp;
+      {{ vehicle.transmission }}
+    </span>
+  </p>
+
+  <p class="vehicle-card__description" *ngIf="vehicle.description">
+    {{ vehicle.description }}
+  </p>
+
+  <footer class="vehicle-card__footer">
+    <span class="vehicle-card__tag">
+      {{ vehicle.fuel_type ?? vehicle.fuelType ?? 'Combustible' }}
+    </span>
+
+    <a
+      *ngIf="actionLink"
+      class="vehicle-card__action"
+      [routerLink]="actionLink"
+      >{{ actionLabel }}</a
+    >
+  </footer>
+</article>

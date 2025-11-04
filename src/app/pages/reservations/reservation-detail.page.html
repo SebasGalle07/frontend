@@ -1,0 +1,119 @@
+<div class="reservation-detail container py-4">
+  <div class="detail-header d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+    <div>
+      <span class="detail-kicker">Detalle de reserva</span>
+      <h2 class="mb-1">Resumen de tu alquiler</h2>
+      <p class="text-muted mb-0" *ngIf="reserva">
+        ID de reserva: <strong>{{ reserva.id }}</strong>
+      </p>
+    </div>
+    <button type="button" class="btn btn-outline-light detail-back" (click)="volver()">
+      <i class="bi bi-arrow-left-short me-1"></i>
+      Volver
+    </button>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <div class="detail-loading" *ngIf="isLoading && !error">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Recuperando informacion de la reserva...
+  </div>
+
+  <ng-container *ngIf="!isLoading && !error && reserva">
+    <div class="detail-grid">
+      <div class="summary-card">
+        <div class="summary-card__status" [ngClass]="estadoClase">
+          {{ estadoEtiqueta }}
+        </div>
+        <h4 class="summary-card__title">Fechas y duracion</h4>
+        <dl class="summary-card__metrics">
+          <div>
+            <dt>Inicio</dt>
+            <dd>{{ reserva.startDateIso | date : 'longDate' }}</dd>
+          </div>
+          <div>
+            <dt>Entrega</dt>
+            <dd>{{ reserva.endDateIso | date : 'longDate' }}</dd>
+          </div>
+          <div>
+            <dt>Duracion</dt>
+            <dd>
+              {{ reserva.duracionDias || 0 }} {{ reserva.duracionDias === 1 ? 'dia' : 'dias' }}
+            </dd>
+          </div>
+        </dl>
+        <div class="summary-card__notes" *ngIf="reserva.comentarios">
+          <h6>Comentarios</h6>
+          <p>{{ reserva.comentarios }}</p>
+        </div>
+      </div>
+
+      <div class="user-card">
+        <header class="user-card__header">
+          <span class="user-card__badge">Tu perfil</span>
+          <h4>Datos del titular</h4>
+        </header>
+        <ul class="user-card__list">
+          <li>
+            <span>Nombre</span>
+            <strong>{{ usuario?.nombre || 'Sin nombre' }}</strong>
+          </li>
+          <li>
+            <span>Correo</span>
+            <strong>{{ usuario?.email || 'Sin correo' }}</strong>
+          </li>
+          <li>
+            <span>Rol</span>
+            <strong>{{ usuario?.rol || 'cliente' }}</strong>
+          </li>
+        </ul>
+      </div>
+
+      <div class="vehicle-card" *ngIf="vehicle">
+        <header class="vehicle-card__header">
+          <span class="vehicle-card__badge">Vehiculo reservado</span>
+          <h4>{{ vehicle.make }} {{ vehicle.model }}</h4>
+        </header>
+        <ul class="vehicle-card__list">
+          <li>
+            <span>Tipo</span>
+            <strong>{{ vehicle.vehicle_type || 'Sin tipo' }}</strong>
+          </li>
+          <li>
+            <span>Capacidad</span>
+            <strong>{{ vehicle.capacity || '?' }} pasajeros</strong>
+          </li>
+          <li>
+            <span>Ubicacion</span>
+            <strong>{{ etiquetaUbicacion }}</strong>
+          </li>
+          <li>
+            <span>Tarifa diaria</span>
+            <strong>
+              {{ vehicle.price_per_day || vehicle.pricePerDay | currency : (vehicle.currency || 'USD') }}
+            </strong>
+          </li>
+          <li *ngIf="costoTotal !== null">
+            <span>Total estimado</span>
+            <strong>{{ costoTotal | currency : (vehicle.currency || 'USD') }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="map-card mt-4">
+      <div class="map-card__header">
+        <span class="map-card__badge">Mapa</span>
+        <h4>Punto de encuentro</h4>
+        <p class="text-muted mb-0">
+          Visualiza el lugar aproximado donde recoger el vehiculo. Coordina detalles finos con el
+          propietario despues de confirmar.
+        </p>
+      </div>
+      <div id="reservation-map" class="map-card__map"></div>
+    </div>
+  </ng-container>
+</div>

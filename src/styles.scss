@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+:root {
+  --color-primary: #4361ee;
+  --color-primary-300: #b4c4ff;
+  --color-primary-600: #2339c7;
+  --color-secondary: #f25f4c;
+  --color-surface: #f6f7fb;
+  --color-surface-strong: #eef0f7;
+
+  --text-strong: #1b1d2a;
+  --text-secondary: #4b4d5f;
+  --text-muted: #6e7185;
+
+  --surface-card: #ffffff;
+  --surface-subtle: #f9f9ff;
+  --surface-border: rgba(27, 29, 42, 0.08);
+  --pill-background: rgba(67, 97, 238, 0.12);
+  --pill-text: #2339c7;
+
+  --shadow-soft: 0 8px 24px rgba(31, 41, 55, 0.08);
+  --shadow-lifted: 0 12px 32px rgba(31, 41, 55, 0.12);
+
+  --nav-height: 64px;
+  --content-max: 1200px;
+
+  --font-default: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-default);
+  background: linear-gradient(180deg, #f9faff 0%, #ffffff 65%);
+  color: var(--text-strong);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 160ms ease;
+
+  &:hover {
+    color: var(--color-primary-600);
+  }
+}
+
+button,
+.btn {
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.35);
+  }
+}
+
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: rgba(67, 97, 238, 0.35);
+
+  &:hover,
+  &:focus {
+    background-color: rgba(67, 97, 238, 0.1);
+    border-color: rgba(67, 97, 238, 0.45);
+    color: var(--color-primary);
+  }
+}
+
+.navbar {
+  --bs-navbar-padding-y: 1.1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(27, 29, 42, 0.04);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-strong) !important;
+}
+
+.navbar .nav-link {
+  font-weight: 600;
+  color: var(--text-secondary);
+
+  &.active,
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.brand-mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 140deg,
+    var(--color-primary) 0deg,
+    var(--color-secondary) 140deg,
+    #fbc02d 320deg
+  );
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.35);
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(67, 97, 238, 0.12);
+  color: var(--color-primary-600);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.maplibregl-control-container .maplibregl-ctrl {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.12);
+}
+
+.auth-card,
+.reservation-card,
+.vehicle-card {
+  border: none;
+}
+
+/* Utility helpers */
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 2vw + 1rem, 2.4rem);
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+}
+
+.pill {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(67, 97, 238, 0.12);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Forms */
+form {
+  --form-field-radius: 12px;
+
+  .form-control,
+  .form-select {
+    border-radius: var(--form-field-radius);
+    border-color: rgba(27, 29, 42, 0.08);
+    padding: 0.7rem 0.95rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+
+    &:focus {
+      border-color: rgba(67, 97, 238, 0.45);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+    }
+  }
+}
+
+/* Responsive helpers */
+@media (max-width: 991px) {
+  .navbar {
+    background: #ffffff;
+  }
+}

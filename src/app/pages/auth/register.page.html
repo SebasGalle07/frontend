@@ -1,0 +1,239 @@
+<section class="auth-section d-flex align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card border-0 shadow auth-card">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="text-center fw-semibold mb-2">Crear cuenta</h3>
+            <p class="text-center text-muted mb-4">
+              Registra tus datos para empezar a reservar vehiculos.
+            </p>
+
+            <form
+              (ngSubmit)="register(registerForm)"
+              #registerForm="ngForm"
+              novalidate
+            >
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label fw-semibold" for="nombre">
+                    Nombre completo
+                  </label>
+                  <input
+                    id="nombre"
+                    type="text"
+                    class="form-control form-control-lg"
+                    name="nombre"
+                    [(ngModel)]="nombre"
+                    #nombreCtrl="ngModel"
+                    required
+                    minlength="3"
+                    [class.is-invalid]="registerForm.submitted && nombreCtrl.invalid"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && nombreCtrl.errors?.['required']"
+                  >
+                    El nombre es obligatorio.
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && nombreCtrl.errors?.['minlength']"
+                  >
+                    Debe tener al menos 3 caracteres.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-semibold" for="email">
+                    Correo electronico
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control form-control-lg"
+                    name="email"
+                    [(ngModel)]="email"
+                    #emailCtrl="ngModel"
+                    required
+                    email
+                    [class.is-invalid]="registerForm.submitted && emailCtrl.invalid"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && emailCtrl.errors?.['required']"
+                  >
+                    Ingresa un correo.
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && emailCtrl.errors?.['email']"
+                  >
+                    Ingresa un correo valido.
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="password">
+                    Contrasena
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    class="form-control form-control-lg"
+                    name="password"
+                    [(ngModel)]="password"
+                    #passwordCtrl="ngModel"
+                    required
+                    minlength="8"
+                    [class.is-invalid]="registerForm.submitted && passwordCtrl.invalid"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && passwordCtrl.errors?.['required']"
+                  >
+                    La contrasena es obligatoria.
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && passwordCtrl.errors?.['minlength']"
+                  >
+                    Debe tener al menos 8 caracteres.
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="confirmPassword">
+                    Confirmar contrasena
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    class="form-control form-control-lg"
+                    name="confirmPassword"
+                    [(ngModel)]="confirmPassword"
+                    #confirmPasswordCtrl="ngModel"
+                    required
+                    [class.is-invalid]="
+                      registerForm.submitted &&
+                      (confirmPasswordCtrl.invalid || password !== confirmPassword)
+                    "
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && confirmPasswordCtrl.errors?.['required']"
+                  >
+                    Confirma tu contrasena.
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      registerForm.submitted &&
+                      !confirmPasswordCtrl.errors?.['required'] &&
+                      password !== confirmPassword
+                    "
+                  >
+                    Las contrasenas no coinciden.
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="telefono">
+                    Telefono (opcional)
+                  </label>
+                  <input
+                    id="telefono"
+                    type="tel"
+                    class="form-control form-control-lg"
+                    name="telefono"
+                    [(ngModel)]="telefono"
+                    #telefonoCtrl="ngModel"
+                    pattern="^[0-9+()\\s-]{7,20}$"
+                    [class.is-invalid]="registerForm.submitted && telefonoCtrl.invalid"
+                    placeholder="+57 300 000 0000"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="registerForm.submitted && telefonoCtrl.errors?.['pattern']"
+                  >
+                    Ingresa un telefono valido.
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold" for="rol">
+                    Que rol necesitas?
+                  </label>
+                  <select
+                    id="rol"
+                    class="form-select form-select-lg"
+                    name="rol"
+                    [(ngModel)]="rol"
+                    required
+                  >
+                    <option *ngFor="let option of roles" [value]="option.value">
+                      {{ option.label }}
+                    </option>
+                  </select>
+                  <div class="form-text">
+                    Elige como usaras la plataforma. Los administradores solo se crean internamente.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="bg-light rounded-3 p-3">
+                    <h6 class="fw-semibold mb-2">Roles disponibles</h6>
+                    <div class="row g-3">
+                      <div class="col-md-6" *ngFor="let option of roles">
+                        <div class="border rounded-3 p-3 h-100">
+                          <h6 class="fw-semibold mb-1">{{ option.label }}</h6>
+                          <p class="text-muted small mb-0">
+                            {{ option.description }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="alert mt-4"
+                [ngClass]="{
+                  'alert-success': success,
+                  'alert-danger': error
+                }"
+                *ngIf="success || error"
+              >
+                {{ success || error }}
+              </div>
+
+              <button
+                class="btn btn-primary w-100 btn-lg mt-3"
+                type="submit"
+                [disabled]="isLoading"
+              >
+                <span *ngIf="!isLoading">Crear cuenta</span>
+                <span
+                  *ngIf="isLoading"
+                  class="d-flex align-items-center justify-content-center gap-2"
+                >
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Procesando...
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+        <p class="text-center text-muted mt-3 small">
+          Ya tienes cuenta?
+          <a routerLink="/login" class="fw-semibold">Inicia sesion aqui</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

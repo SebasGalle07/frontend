@@ -1,0 +1,140 @@
+<div class="container py-4 vehicle-search-page">
+  <header class="d-flex flex-column flex-lg-row align-items-lg-start justify-content-between gap-3 mb-4">
+    <div class="section-heading">
+      <span class="search-tag">Aqui reservas tu vehiculo</span>
+      <h2>Explora la flota disponible</h2>
+      <p>
+        Selecciona la ciudad donde te encuentras o donde deseas registrar el vehiculo.
+        Te mostramos todas las opciones sin aplicar filtros adicionales.
+      </p>
+    </div>
+    <div class="search-meta text-lg-end">
+      <div class="search-meta__status text-muted small d-flex align-items-center gap-2 justify-content-lg-end"
+        *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Actualizando resultados...
+      </div>
+      <div class="search-meta__scope">
+        <span class="search-meta__badge">{{ selectedCityLabel }}</span>
+        <small class="text-muted d-block">
+          {{ vehicles.length }} opciones visibles en esta ciudad
+        </small>
+      </div>
+    </div>
+  </header>
+
+  <form class="row g-3 mb-4 filter-card px-3 px-md-4 py-3" (ngSubmit)="buscar()" novalidate>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+      <label class="form-label fw-semibold" for="ciudad">Ciudad</label>
+      <select
+        id="ciudad"
+        class="form-select"
+        [(ngModel)]="filters.ciudad"
+        name="ciudad"
+        (ngModelChange)="onCityChange()"
+      >
+        <option value="">Todas las ciudades</option>
+        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+      </select>
+      <small class="form-text text-muted">Puedes cambiar de ciudad y los vehiculos se actualizaran al instante.</small>
+    </div>
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+      <label class="form-label fw-semibold" for="tipo">Tipo de vehiculo</label>
+      <input
+        id="tipo"
+        class="form-control"
+        type="text"
+        autocomplete="off"
+        placeholder="SUV, Sedan, Pickup..."
+        [(ngModel)]="filters.tipo"
+        name="tipo"
+      />
+    </div>
+
+    <div class="col-xl-2 col-lg-4 col-md-6">
+      <label class="form-label fw-semibold" for="precio_min">Precio minimo</label>
+      <input
+        id="precio_min"
+        class="form-control"
+        type="number"
+        min="0"
+        step="10"
+        inputmode="numeric"
+        placeholder="Desde"
+        [(ngModel)]="filters.precio_min"
+        name="precio_min"
+      />
+    </div>
+
+    <div class="col-xl-2 col-lg-4 col-md-6">
+      <label class="form-label fw-semibold" for="precio_max">Precio maximo</label>
+      <input
+        id="precio_max"
+        class="form-control"
+        type="number"
+        min="0"
+        step="10"
+        inputmode="numeric"
+        placeholder="Hasta"
+        [(ngModel)]="filters.precio_max"
+        name="precio_max"
+      />
+    </div>
+
+    <div class="col-xl-2 col-lg-6 col-md-6 d-flex flex-wrap gap-2 align-items-end justify-content-end">
+      <button type="submit" class="btn btn-primary flex-grow-1" [disabled]="isLoading">
+        <i class="bi bi-search me-1"></i>
+        Buscar
+      </button>
+      <button type="button" class="btn btn-outline-dark flex-grow-1" (click)="resetFilters()" [disabled]="isLoading">
+        Limpiar filtros
+      </button>
+    </div>
+  </form>
+
+  <div class="alert alert-danger mb-4" role="alert" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5 order-2 order-lg-1">
+      <div class="empty-card empty-card--dark" *ngIf="!vehicles.length && !isLoading && !errorMessage">
+        <div class="empty-card__content">
+          <i class="bi bi-moon-stars"></i>
+          <h3>Sin resultados por ahora</h3>
+          <p>
+            Ajusta el tipo de vehiculo, modifica el rango de precios o cambia la ciudad seleccionada para descubrir
+            nuevas opciones.
+          </p>
+        </div>
+      </div>
+
+      <div class="results-meta" *ngIf="vehicles.length">
+        <span class="results-meta__badge">
+          {{ selectedCityLabel }}
+        </span>
+        <small>Filtra por precio o tipo para acotar la busqueda.</small>
+      </div>
+
+      <div class="results-grid" *ngIf="vehicles.length">
+        <app-vehicle-card
+          *ngFor="let v of vehicles"
+          [vehicle]="v"
+          [actionLink]="['/reservar', v.id]"
+          actionLabel="Reservar"
+        ></app-vehicle-card>
+      </div>
+    </div>
+
+    <div class="col-lg-7 order-1 order-lg-2">
+      <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="map-placeholder" *ngIf="!vehicles.length && !isLoading">
+          <i class="bi bi-map fs-2"></i>
+          Selecciona una ciudad distinta o amplía los rangos para ver vehículos sobre el mapa.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
