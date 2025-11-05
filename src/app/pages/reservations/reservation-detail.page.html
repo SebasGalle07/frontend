@@ -22,6 +22,7 @@
     Recuperando informacion de la reserva...
   </div>
 
+  <!-- Contenido informativo condicionado a que ya haya reserva -->
   <ng-container *ngIf="!isLoading && !error && reserva">
     <div class="detail-grid">
       <div class="summary-card">
@@ -103,17 +104,18 @@
         </ul>
       </div>
     </div>
-
-    <div class="map-card mt-4">
-      <div class="map-card__header">
-        <span class="map-card__badge">Mapa</span>
-        <h4>Punto de encuentro</h4>
-        <p class="text-muted mb-0">
-          Visualiza el lugar aproximado donde recoger el vehiculo. Coordina detalles finos con el
-          propietario despues de confirmar.
-        </p>
-      </div>
-      <div id="reservation-map" class="map-card__map"></div>
-    </div>
   </ng-container>
+
+  <!-- Mapa SIEMPRE en el DOM para que MapLibre pueda montarse -->
+  <div class="map-card mt-4">
+    <div class="map-card__header">
+      <span class="map-card__badge">Mapa</span>
+      <h4>Punto de encuentro</h4>
+      <p class="text-muted mb-0">
+        Visualiza el lugar aproximado donde recoger el vehiculo. Coordina detalles finos con el
+        propietario despues de confirmar.
+      </p>
+    </div>
+    <div id="reservation-map" class="map-card__map"></div>
+  </div>
 </div>
