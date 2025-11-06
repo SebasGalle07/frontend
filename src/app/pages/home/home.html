@@ -1,3 +1,4 @@
+<!-- home.component.html -->
 <section class="home-hero py-5">
   <div class="container hero-grid">
     <div class="hero-copy">
@@ -16,12 +17,7 @@
             <span>Ciudad</span>
             <div class="form-field">
               <i class="bi bi-geo-alt"></i>
-              <input
-                type="text"
-                name="ciudad"
-                placeholder="Ej: Medellin"
-                [(ngModel)]="filtros.ciudad"
-              />
+              <input type="text" name="ciudad" placeholder="Ej: Medellin" [(ngModel)]="filtros.ciudad" />
             </div>
           </label>
 
@@ -29,12 +25,7 @@
             <span>Tipo</span>
             <div class="form-field">
               <i class="bi bi-sliders"></i>
-              <input
-                type="text"
-                name="tipo"
-                placeholder="SUV, Sedan, Electrico..."
-                [(ngModel)]="filtros.tipo"
-              />
+              <input type="text" name="tipo" placeholder="SUV, Sedan, Electrico..." [(ngModel)]="filtros.tipo" />
             </div>
           </label>
 
@@ -42,11 +33,7 @@
             <span>Fecha inicio</span>
             <div class="form-field">
               <i class="bi bi-calendar-event"></i>
-              <input
-                type="date"
-                name="fecha_inicio"
-                [(ngModel)]="filtros.fecha_inicio"
-              />
+              <input type="date" name="fecha_inicio" [(ngModel)]="filtros.fecha_inicio" />
             </div>
           </label>
 
@@ -54,11 +41,7 @@
             <span>Fecha fin</span>
             <div class="form-field">
               <i class="bi bi-calendar-check"></i>
-              <input
-                type="date"
-                name="fecha_fin"
-                [(ngModel)]="filtros.fecha_fin"
-              />
+              <input type="date" name="fecha_fin" [(ngModel)]="filtros.fecha_fin" />
             </div>
           </label>
         </div>
@@ -75,7 +58,8 @@
 
         <p class="hero-helper text-muted">
           <i class="bi bi-check2-circle me-1"></i>
-          Aqui reservas tu vehiculo: ingresa en <strong>Ver todas las opciones</strong> para ver la oferta completa sin filtros.
+          Aqui reservas tu vehiculo: ingresa en <strong>Ver todas las opciones</strong> para ver la oferta completa
+          sin filtros.
         </p>
       </form>
 
@@ -131,12 +115,8 @@
     <div class="row g-4">
       <ng-container *ngIf="destacados.length; else destacadosEmpty">
         <div class="col-lg-4 col-md-6" *ngFor="let v of destacados">
-          <app-vehicle-card
-            [vehicle]="v"
-            [highlight]="true"
-            [actionLink]="['/reservar', v.id]"
-            actionLabel="Reservar ahora"
-          ></app-vehicle-card>
+          <app-vehicle-card [vehicle]="v" [highlight]="true" [actionLink]="['/reservar', v.id]"
+            actionLabel="Reservar ahora"></app-vehicle-card>
         </div>
       </ng-container>
     </div>
@@ -151,8 +131,8 @@
         <h3>{{ mostrarDestacadosSkeleton ? 'Analizando opciones...' : 'Sin recomendaciones por ahora' }}</h3>
         <p>
           {{ mostrarDestacadosSkeleton
-            ? 'Cargando la disponibilidad mas reciente en tu zona.'
-            : 'Prueba ajustando los filtros o explora la lista completa de vehiculos.'
+          ? 'Cargando la disponibilidad mas reciente en tu zona.'
+          : 'Prueba ajustando los filtros o explora la lista completa de vehiculos.'
           }}
         </p>
         <a class="btn btn-outline-primary btn-sm" routerLink="/buscar">
@@ -166,53 +146,148 @@
 <section class="home-dashboard py-5">
   <div class="container">
     <div class="row g-4 align-items-start">
+      <!-- Panel Izquierdo: Espacio de Cliente -->
       <div class="col-lg-4">
-        <div class="status-card">
-          <header>
-            <span class="pill">Estado del backend</span>
-            <h3>Salud del servicio</h3>
-          </header>
-
-          <div class="status-card__body" *ngIf="isLoadingHealth">
-            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            Consultando backend...
+        <div class="client-space-card">
+          <!-- Header con gradiente -->
+          <div class="client-space-card__header">
+            <div class="icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <h3>Tu espacio de cliente</h3>
+            <p>Gestiona tus reservas y preferencias</p>
           </div>
 
-          <div class="alert alert-danger" *ngIf="healthError">
-            {{ healthError }}
+          <!-- Opciones Rápidas -->
+          <div class="client-space-card__body">
+            <div class="quick-actions">
+              <div class="quick-action-item">
+                <div class="quick-action-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="quick-action-content">
+                  <h4>Gestiona reservas</h4>
+                  <p>Revisa, modifica o cancela tus viajes programados</p>
+                </div>
+              </div>
+
+              <div class="quick-action-item">
+                <div class="quick-action-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                    </path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                  </svg>
+                </div>
+                <div class="quick-action-content">
+                  <h4>Explora vehículos</h4>
+                  <p>Descubre y reserva el auto perfecto para tu próximo viaje</p>
+                </div>
+              </div>
+
+              <div class="quick-action-item">
+                <div class="quick-action-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <div class="quick-action-content">
+                  <h4>Soporte 24/7</h4>
+                  <p>Asistencia por chat y correo cuando lo necesites</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Información Clave -->
+            <div class="info-section">
+              <h4 class="info-section__title">Información importante</h4>
+
+              <div class="info-item">
+                <div class="info-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="info-item__content">
+                  <strong>Política de cambios</strong>
+                  <p>Modifica o cancela hasta 24h antes del inicio (según disponibilidad)</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="info-item__content">
+                  <strong>Métodos de pago</strong>
+                  <p>Tarjeta de crédito o débito</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div class="info-item__content">
+                  <strong>Seguridad</strong>
+                  <p>Tus datos protegidos para tu tranquilidad</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="status-card__metrics" *ngIf="healthStatus && !healthError">
-            <dl>
-              <div>
-                <dt>Backend</dt>
-                <dd>{{ healthStatus.estado || 'desconocido' }}</dd>
+          <!-- Footer de Contacto -->
+          <div class="client-space-card__footer">
+            <div class="contact-info">
+              <p class="contact-label">¿Necesitas ayuda?</p>
+              <div class="contact-links">
+                <a href="mailto:soporte@autoshare.com" class="contact-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  Email
+                </a>
+                <a href="https://wa.me/573005939785" target="_blank" rel="noopener" class="contact-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                    </path>
+                  </svg>
+                  WhatsApp
+                </a>
               </div>
-              <div>
-                <dt>Aplicacion</dt>
-                <dd>{{ healthStatus.aplicacion || '-' }}</dd>
-              </div>
-              <div>
-                <dt>Entorno</dt>
-                <dd>{{ healthStatus.entorno || '-' }}</dd>
-              </div>
-            </dl>
-
-            <div class="status-card__supabase">
-              <span class="status-card__supabase-pill"
-                [class.status-card__supabase-pill--ok]="healthStatus.supabase?.configurado"
-              >
-                {{ healthStatus.supabase?.configurado ? 'Credenciales completas' : 'Supabase faltante' }}
-              </span>
-              <small>
-                Ultima verificacion:
-                {{ healthStatus.marca_de_tiempo | date : 'medium' }}
-              </small>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Panel Derecho: Reservas -->
       <div class="col-lg-8">
         <div class="reservations-card">
           <div class="reservations-card__header">
@@ -220,15 +295,15 @@
               <h3>Tus reservas recientes</h3>
               <p *ngIf="estaAutenticado; else invitaSesion">
                 {{ usuario?.nombre ? ('Hola, ' + usuario?.nombre + '. ') : '' }}
-                Aqui puedes cancelar o revisar el detalle de tus proximos viajes.
+                Aquí puedes cancelar o revisar el detalle de tus próximos viajes.
               </p>
             </div>
-            <a class="btn btn-outline-primary btn-sm" routerLink="/buscar">Explorar vehiculos</a>
+            <a class="btn btn-outline-primary btn-sm" routerLink="/buscar">Explorar vehículos</a>
           </div>
 
           <ng-template #invitaSesion>
             <p class="text-muted mb-0">
-              Inicia sesion para revisar el historial y gestionar reservas activas.
+              Inicia sesión para revisar el historial y gestionar reservas activas.
             </p>
           </ng-template>
 
@@ -245,13 +320,9 @@
           </div>
 
           <div class="reservations-card__list" *ngIf="hayReservas; else reservasEmpty">
-            <app-reservation-card
-              *ngFor="let reserva of reservas"
-              [reservation]="reserva"
-              [showCancel]="reserva.status === 'confirmada'"
-              [isCancelling]="cancelandoId === reserva.id"
-              (cancel)="cancelarReserva($event)"
-            ></app-reservation-card>
+            <app-reservation-card *ngFor="let reserva of reservas" [reservation]="reserva"
+              [showCancel]="reserva.status === 'confirmada'" [isCancelling]="cancelandoId === reserva.id"
+              (cancel)="cancelarReserva($event)"></app-reservation-card>
           </div>
         </div>
       </div>
